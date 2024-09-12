@@ -24,6 +24,7 @@
   width: 100%;
   overflow-y: scroll;
   scrollbar-width: none;
+  color: whitesmoke;
 }
 
 .ContentModal::-webkit-scrollbar {

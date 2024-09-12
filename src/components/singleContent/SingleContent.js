@@ -1,6 +1,5 @@
 import React from "react";
-import Badge from "@material-ui/core/Badge";
-import MailIcon from "@material-ui/icons/Mail";
+import Badge from "@mui/material/Badge";
 import "./SingleContent.css";
 import "./SingleContent.css";
 import ContentModal from "../contentModal/ContentModal";

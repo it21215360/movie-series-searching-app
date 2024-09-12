@@ -1,4 +1,4 @@
-import { Chip } from "@material-ui/core";
+import { Chip } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 
@@ -62,6 +62,7 @@ const Genres = ({
             key={genre.id}
             clickable
             size="small"
+            sx={{ color: "white" }}
             onClick={() => handleAdd(genre)}
           />
         ))}

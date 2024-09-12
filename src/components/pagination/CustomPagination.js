@@ -1,8 +1,6 @@
 import React from "react";
-import Pagination from "@material-ui/lab/Pagination";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import purple from "@material-ui/core/colors/purple";
-import green from "@material-ui/core/colors/green";
+import Pagination from "@mui/material/Pagination";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
@@ -29,7 +27,7 @@ export default function CustomPagination({ numOfPages = 10, setPage }) {
         <Pagination
           onChange={(e) => handlePageChange(e.target.textContent)}
           count={numOfPages}
-          variant="outlined"
+          variant="text"
           color="primary"
           hideNextButton
           hidePrevButton
