@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Modal from "@mui/material/Modal";
-import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
 import axios from "axios";
-import {
-  img_500,
-  unavailable,
-  unavailableLandscape,
-} from "../../config/config";
-import { Button } from "@mui/material";
+import { img_500, unavailable } from "../../config/config";
+import { Box, Button, CardMedia, Typography } from "@mui/material";
 import Carousel from "../carousel/Carousel";
 import { YouTube } from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
 
-// Styling using styled instead of makeStyles
 const StyledModal = styled(Modal)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -21,13 +16,14 @@ const StyledModal = styled(Modal)(({ theme }) => ({
 }));
 
 const StyledPaper = styled("div")(({ theme }) => ({
-  width: "90%",
+  width: "80%",
   height: "80%",
   backgroundColor: "#39445a",
   border: "2px solid #000",
   borderRadius: 10,
   boxShadow: theme.shadows[5],
   padding: theme.spacing(2, 4, 3),
+  overflow: "auto",
 }));
 
 export default function ContentModal({ children, media_type, id }) {
@@ -70,7 +66,7 @@ export default function ContentModal({ children, media_type, id }) {
       fetchData();
       fetchVideo();
     }
-  }, [open, media_type, id]);
+  }, [open]);
 
   return (
     <>
@@ -83,35 +79,39 @@ export default function ContentModal({ children, media_type, id }) {
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={open}>
-          {content && (
+          {content ? (
             <StyledPaper>
-              <div className="ContentModal">
-                <img
-                  src={
-                    content.poster_path
-                      ? `${img_500}/${content.poster_path}`
-                      : unavailable
-                  }
-                  alt={content.name || content.title}
-                  className="ContentModal__portrait"
-                />
-                <img
-                  src={
-                    content.backdrop_path
-                      ? `${img_500}/${content.backdrop_path}`
-                      : unavailableLandscape
-                  }
-                  alt={content.name || content.title}
-                  className="ContentModal__landscape"
-                />
-                <div className="ContentModal__about">
-                  <span className="ContentModal__title">
+              <Grid container spacing={2}>
+                {/* Image Column */}
+                <Grid item xs={12} md={4}>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    overflow="hidden"
+                  >
+                    <CardMedia
+                      component="img"
+                      image={
+                        content.poster_path
+                          ? `${img_500}/${content.poster_path}`
+                          : unavailable
+                      }
+                      alt={content.name || content.title}
+                      sx={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: 2,
+                      }}
+                    />
+                  </Box>
+                </Grid>
+
+                {/* Content Column */}
+                <Grid item xs={12} md={8}>
+                  <Typography variant="h3" gutterBottom>
                     {content.name || content.title} (
                     {(
                       content.first_air_date ||
@@ -119,14 +119,17 @@ export default function ContentModal({ children, media_type, id }) {
                       "-----"
                     ).substring(0, 4)}
                     )
-                  </span>
+                  </Typography>
+
                   {content.tagline && (
-                    <i className="tagline">{content.tagline}</i>
+                    <Typography variant="h5" color="textSecondary" gutterBottom>
+                      {content.tagline}
+                    </Typography>
                   )}
 
-                  <span className="ContentModal__description">
+                  <Typography variant="body2" paragraph>
                     {content.overview}
-                  </span>
+                  </Typography>
 
                   <Button
                     variant="contained"
@@ -134,13 +137,17 @@ export default function ContentModal({ children, media_type, id }) {
                     color="secondary"
                     target="__blank"
                     href={`https://www.youtube.com/watch?v=${video}`}
+                    sx={{ marginBottom: 2 }}
                   >
                     Watch the Trailer
                   </Button>
+
                   <Carousel media_type={media_type} id={id} />
-                </div>
-              </div>
+                </Grid>
+              </Grid>
             </StyledPaper>
+          ) : (
+            <div>Loading...</div>
           )}
         </Fade>
       </StyledModal>

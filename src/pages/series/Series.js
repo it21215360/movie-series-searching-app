@@ -22,7 +22,6 @@ function Series() {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
-    console.log(data);
   };
   useEffect(() => {
     fetchTrending();
@@ -53,7 +52,6 @@ function Series() {
               media_type="tv"
               vote_average={c.vote_average}
             />
-            // console.log(c)
           ))}
       </div>
       {numOfPages > 1 && (

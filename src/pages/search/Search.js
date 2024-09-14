@@ -34,7 +34,6 @@ function SearchTheme() {
       }&language=en-US&query=${searchText}&page=${page}&include_adult=false`
     );
     setContent(data.results);
-    console.log(content);
     setNumOfPages(data.total_pages);
   };
 
@@ -94,7 +93,6 @@ function SearchTheme() {
               media_type={type ? "tv" : "movie"}
               vote_average={c.vote_average}
             />
-            // console.log(c)
           ))}
         {searchText &&
           !content &&
