@@ -4,15 +4,16 @@ import SingleContent from "../../components/singleContent/SingleContent";
 import "./Trending.css";
 import CustomPagination from "../../components/pagination/CustomPagination";
 import { Typography } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react"; // Import useAuth0 to get user information
 
 function Trending() {
   const [page, setPage] = useState(1);
-
   const [content, setContent] = useState([]);
+  const { user, isAuthenticated } = useAuth0(); // Destructure user and authentication status
 
   const fetchTrending = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}with_genres=$`
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`
     );
     setContent(data.results);
   };
@@ -23,6 +24,13 @@ function Trending() {
 
   return (
     <div>
+      {/* Display the user's name if authenticated */}
+      {isAuthenticated && (
+        <Typography variant="h4" style={{ marginBottom: "20px" }}>
+          Welcome, {user.name}!
+        </Typography>
+      )}
+
       <span className="pageTitle">
         <Typography variant="h3">Movies</Typography>
       </span>
