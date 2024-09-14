@@ -1,10 +1,11 @@
 import React from "react";
 import "./Header.css";
+import { Typography } from "@mui/material";
 
 function Header() {
   return (
     <div onClick={() => window.scroll(0, 0)} className="header">
-      <h1>🎥 Entertainment++ 🎬</h1>
+      <Typography variant="h1">🎥 Entertainment++ 🎬</Typography>
     </div>
   );
 }

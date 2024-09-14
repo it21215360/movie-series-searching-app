@@ -1,9 +1,9 @@
-import { React } from "react";
+import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Container } from "@material-ui/core";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Container } from "@mui/material";
 import Trending from "./pages/trending/Trending";
-import Search from "./pages/search/Search";
+import SearchTheme from "./pages/search/Search";
 import Movies from "./pages/movies/Movies";
 import Series from "./pages/series/Series";
 import Header from "./components/header/Header";
@@ -15,12 +15,12 @@ function App() {
       <Header />
       <div className="app">
         <Container>
-          <Switch>
-            <Route path="/" component={Trending} exact />
-            <Route path="/movies" component={Movies} exact />
-            <Route path="/series" component={Series} exact />
-            <Route path="/search" component={Search} exact />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Trending />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/series" element={<Series />} />
+            <Route path="/search" element={<SearchTheme />} />
+          </Routes>
         </Container>
       </div>
       <SimpleBottomNavigation />

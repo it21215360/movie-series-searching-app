@@ -1,4 +1,4 @@
-import { Chip } from "@material-ui/core";
+import { Chip } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 
@@ -28,7 +28,6 @@ const Genres = ({
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/genre/${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-    console.log(data.genres);
     setGenres(data.genres);
   };
 
@@ -62,6 +61,7 @@ const Genres = ({
             key={genre.id}
             clickable
             size="small"
+            sx={{ color: "white" }}
             onClick={() => handleAdd(genre)}
           />
         ))}

@@ -4,8 +4,7 @@ import CustomPagination from "../../components/pagination/CustomPagination";
 import SingleContent from "../../components/singleContent/SingleContent";
 import Genres from "../../components/genres/Genres";
 import useGenres from "../../hooks/useGenres";
-
-//https://api.themoviedb.org/3/discover/movie?api_key=%24%7Bprocess.env.REACT_APP_API_KEY%7D&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=%24%7Bpage%7D&with_genres=%24%7BgenreforURL
+import { Typography } from "@mui/material";
 
 function Movies() {
   const [page, setPage] = useState(1);
@@ -20,15 +19,13 @@ function Movies() {
 
   const fetchTrending = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}&with_genres=${genreforURL}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
-    console.log(data);
   };
   useEffect(() => {
     fetchTrending();
-    //eslint-disable-next-line
   }, [page, genreforURL]);
   return (
     <div>
@@ -40,7 +37,9 @@ function Movies() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <span className="pageTitle">Movies</span>
+      <span className="pageTitle">
+        <Typography variant="h3">Movies</Typography>
+      </span>
       <div className="trending">
         {content &&
           content.map((c) => (
@@ -53,7 +52,6 @@ function Movies() {
               media_type="movie"
               vote_average={c.vote_average}
             />
-            // console.log(c)
           ))}
       </div>
       {numOfPages > 1 && (

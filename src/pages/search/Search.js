@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {
-  createTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SingleContent from "../../components/singleContent/SingleContent";
 import CustomPagination from "../../components/pagination/CustomPagination";
 
-import Button from "@material-ui/core/Button";
-import SearchIcon from "@material-ui/icons/Search";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import Button from "@mui/material/Button";
+import SearchIcon from "@mui/icons-material/Search";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import axios from "axios";
 
-function Search() {
+function SearchTheme() {
   const darkTheme = createTheme({
     palette: {
       type: "dark",
@@ -38,7 +34,6 @@ function Search() {
       }&language=en-US&query=${searchText}&page=${page}&include_adult=false`
     );
     setContent(data.results);
-    console.log(content);
     setNumOfPages(data.total_pages);
   };
 
@@ -98,7 +93,6 @@ function Search() {
               media_type={type ? "tv" : "movie"}
               vote_average={c.vote_average}
             />
-            // console.log(c)
           ))}
         {searchText &&
           !content &&
@@ -111,4 +105,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchTheme;

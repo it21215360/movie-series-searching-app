@@ -4,6 +4,7 @@ import CustomPagination from "../../components/pagination/CustomPagination";
 import SingleContent from "../../components/singleContent/SingleContent";
 import Genres from "../../components/genres/Genres";
 import useGenres from "../../hooks/useGenres";
+import { Typography } from "@mui/material";
 function Series() {
   const [page, setPage] = useState(1);
   const [genres, setGenres] = useState([]);
@@ -21,7 +22,6 @@ function Series() {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
-    console.log(data);
   };
   useEffect(() => {
     fetchTrending();
@@ -37,7 +37,9 @@ function Series() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <span className="pageTitle">Tv-series</span>
+      <span className="pageTitle">
+        <Typography variant="h3">TV-Series</Typography>
+      </span>
       <div className="trending">
         {content &&
           content.map((c) => (
@@ -50,7 +52,6 @@ function Series() {
               media_type="tv"
               vote_average={c.vote_average}
             />
-            // console.log(c)
           ))}
       </div>
       {numOfPages > 1 && (

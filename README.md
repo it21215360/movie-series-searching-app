@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+### New package.json
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+"dependencies": {
+"@emotion/react": "^11.13.3",
+"@emotion/styled": "^11.13.0",
+"@mui/icons-material": "^5.15.0",
+"@mui/lab": "^5.0.0-alpha.120",
+"@mui/material": "^5.16.7",
+"@mui/styled-engine-sc": "^6.1.0",
+"@mui/system": "^6.1.0",
+"@testing-library/jest-dom": "^5.16.5",
+"@testing-library/react": "^14.0.0",
+"@testing-library/user-event": "^14.2.0",
+"axios": "^1.7.7",
+"react": "^18.3.1",
+"react-alice-carousel": "^2.5.1",
+"react-dom": "^18.3.1",
+"react-router-dom": "^6.14.0",
+"react-scripts": "^5.0.1",
+"tailwindcss": "^3.3.2",
+"web-vitals": "^2.1.4"
+},
 
-## Available Scripts
+### Old package.json
 
-In the project directory, you can run:
+"dependencies": {
+"@material-ui/core": "^4.12.3",
+"@material-ui/icons": "^4.11.2",
+"@material-ui/lab": "^4.0.0-alpha.60",
+"@testing-library/jest-dom": "^5.14.1",
+"@testing-library/react": "^11.2.7",
+"@testing-library/user-event": "^12.8.3",
+"axios": "^0.21.1",
+"react": "^17.0.2",
+"react-alice-carousel": "^2.5.1",
+"react-dom": "^17.0.2",
+"react-router-dom": "^5.2.0",
+"react-scripts": "4.0.3",
+"tailwindcss": "^2.2.4",
+"web-vitals": "^1.1.2"
+},
 
-### `npm start`
+### Imporvements, security & other vulnerability fixes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- 1.  React (`18.3.1` from `17.0.2`)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  - Concurrent Features: Introduces concurrent rendering and Suspense for data fetching, which could break old code not designed for it【15†source】.
+  - Strict Mode Changes: Components unmount and remount in development, which could lead to unexpected behavior if side effects are not managed【15†source】.
 
-### `npm test`
+  2.  Axios (`1.7.7` from `0.21.1`)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - Prototype Pollution Vulnerability: Fixed vulnerabilities like prototype pollution, SSRF (Server-Side Request Forgery), and others that could be exploited【14†source】.
+  - CORS and CSRF Fixes: Enhanced security to prevent Cross-Origin and Cross-Site Request Forgery attacks【14†source】【15†source】.
 
-### `npm run build`
+  3.  @mui/material (`5.16.7` from `4.12.3`)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  - Emotion Styling Issues: Switching to Emotion for styling led to breaking changes in handling styles, impacting existing apps using older Material-UI versions【14†source】.
+  - Security Updates: MUI has patched several security vulnerabilities in dependencies like Emotion【14†source】.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  4.  React Router DOM (`6.14.0` from `5.2.0`)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  - Breaking API Changes: Major changes in the routing API require extensive refactoring. Old hooks and route matching patterns have been deprecated【15†source】.
 
-### `npm run eject`
+  5.  @emotion/react (`11.13.3` from `11.11.0`)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  - Build Problems in Webpack: Some issues related to dynamic dependency imports caused problems with bundling, particularly in Next.js and Webpack builds【14†source】.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  6.  @mui/lab (`5.0.0-alpha.120` from `4.0.0-alpha.60`)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  - Breaking Changes in Components: Several alpha-level components have breaking changes and are still in experimental stages【14†source】.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  7.  @testing-library/react (`14.0.0` from `11.2.7`)
 
-## Learn More
+  - API Changes: Updated testing utilities to better align with React 18's concurrent features, which can break existing tests relying on synchronous behavior【14†source】.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  8.  Tailwind CSS (`3.3.2` from `2.2.4`)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  - Vulnerabilities Patched: Earlier versions of Tailwind had issues with vulnerabilities in dependencies like postcss. These have been addressed in version 3.x【14†source】.
 
-### Code Splitting
+  9.  @mui/styled-engine-sc (`6.1.0`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  - CSS-in-JS Compatibility: Issues with `styled-components` compatibility with the latest versions of MUI. It can lead to style collisions or degraded performance【14†source】.
 
-### Analyzing the Bundle Size
+  10. web-vitals (`2.1.4` from `1.1.2`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  - Performance Fixes: Improved metrics collection for Core Web Vitals, with better handling of long tasks and rendering bottlenecks【14†source】.
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+These updates contain important security patches and feature enhancements, but many introduce breaking changes requiring careful migration.

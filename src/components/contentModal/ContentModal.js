@@ -1,38 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
+import { styled } from "@mui/material/styles";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
 import axios from "axios";
-import {
-  img_500,
-  unavailable,
-  unavailableLandscape,
-} from "../../config/config";
-import "./ContentModal.css";
-import { Button } from "@material-ui/core";
-import YouTubeIcon from "@material-ui/icons/YouTube";
+import { img_500, unavailable } from "../../config/config";
+import { Box, Button, CardMedia, Typography } from "@mui/material";
 import Carousel from "../carousel/Carousel";
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    width: "90%",
-    height: "80%",
-    backgroundColor: "#39445a",
-    border: "2px solid #000",
-    borderRadius: 10,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
+import { YouTube } from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
+
+const StyledModal = styled(Modal)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledPaper = styled("div")(({ theme }) => ({
+  width: "80%",
+  height: "80%",
+  backgroundColor: "#39445a",
+  border: "2px solid #000",
+  borderRadius: 10,
+  boxShadow: theme.shadows[5],
+  padding: theme.spacing(2, 4, 3),
+  overflow: "auto",
 }));
 
 export default function ContentModal({ children, media_type, id }) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [content, setContent] = useState();
   const [video, setVideo] = useState();
 
@@ -45,65 +40,78 @@ export default function ContentModal({ children, media_type, id }) {
   };
 
   const fetchData = async () => {
-    const { data } =
-      await axios.get(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US
-    `);
-    setContent(data);
-    console.log(content);
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setContent(data);
+    } catch (error) {
+      console.error("Error fetching content data:", error);
+    }
   };
+
   const fetchVideo = async () => {
-    const { data } =
-      await axios.get(`https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US
-    `);
-    setVideo(data.results[0]?.key);
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setVideo(data.results[0]?.key);
+    } catch (error) {
+      console.error("Error fetching video data:", error);
+    }
   };
 
   useEffect(() => {
-    fetchData();
-    fetchVideo();
-    // eslint-disable-next-line
-  }, [content, video]);
+    if (open) {
+      fetchData();
+      fetchVideo();
+    }
+  }, [open]);
+
   return (
     <>
       <button type="button" onClick={handleOpen} className="media">
         {children}
       </button>
-      <Modal
+      <StyledModal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        className={classes.modal}
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={open}>
-          {content && (
-            <div className={classes.paper}>
-              <div className="ContentModal">
-                <img
-                  src={
-                    content.poster_path
-                      ? `${img_500}/${content.poster_path}`
-                      : unavailable
-                  }
-                  alt={content.name || content.title}
-                  className="ContentModal__portrait"
-                />
-                <img
-                  src={
-                    content.backdrop_path
-                      ? `${img_500}/${content.backdrop_path}`
-                      : unavailableLandscape
-                  }
-                  alt={content.name || content.title}
-                  className="ContentModal__landscape"
-                />
-                <div className="ContentModal__about">
-                  <span className="ContentModal__title">
+          {content ? (
+            <StyledPaper>
+              <Grid container spacing={2}>
+                {/* Image Column */}
+                <Grid item xs={12} md={4}>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    overflow="hidden"
+                  >
+                    <CardMedia
+                      component="img"
+                      image={
+                        content.poster_path
+                          ? `${img_500}/${content.poster_path}`
+                          : unavailable
+                      }
+                      alt={content.name || content.title}
+                      sx={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: 2,
+                      }}
+                    />
+                  </Box>
+                </Grid>
+
+                {/* Content Column */}
+                <Grid item xs={12} md={8}>
+                  <Typography variant="h3" gutterBottom>
                     {content.name || content.title} (
                     {(
                       content.first_air_date ||
@@ -111,35 +119,38 @@ export default function ContentModal({ children, media_type, id }) {
                       "-----"
                     ).substring(0, 4)}
                     )
-                  </span>
+                  </Typography>
+
                   {content.tagline && (
-                    <i className="tagline">{content.tagline}</i>
+                    <Typography variant="h5" color="textSecondary" gutterBottom>
+                      {content.tagline}
+                    </Typography>
                   )}
 
-                  <span className="ContentModal__description">
+                  <Typography variant="body2" paragraph>
                     {content.overview}
-                  </span>
-
-                  <div>
-                    {/* <Carousel id={id} media_type={media_type} /> */}
-                  </div>
+                  </Typography>
 
                   <Button
                     variant="contained"
-                    startIcon={<YouTubeIcon />}
+                    startIcon={<YouTube />}
                     color="secondary"
                     target="__blank"
                     href={`https://www.youtube.com/watch?v=${video}`}
+                    sx={{ marginBottom: 2 }}
                   >
                     Watch the Trailer
                   </Button>
+
                   <Carousel media_type={media_type} id={id} />
-                </div>
-              </div>
-            </div>
+                </Grid>
+              </Grid>
+            </StyledPaper>
+          ) : (
+            <div>Loading...</div>
           )}
         </Fade>
-      </Modal>
+      </StyledModal>
     </>
   );
 }
