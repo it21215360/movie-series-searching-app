@@ -10,10 +10,7 @@ function Header() {
   const location = useLocation();
 
   const handleLogout = () => {
-    // Navigate to the login page first
     navigate("/login", { replace: true });
-
-    // Perform the logout action
     logout({ returnTo: window.location.origin });
   };
 
