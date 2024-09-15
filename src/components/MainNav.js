@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom"; 
 import { styled } from "@mui/material/styles";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -17,13 +18,14 @@ const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
 export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (value === 0) navigate("/");
-    if (value === 1) navigate("/movies");
-    if (value === 2) navigate("/series");
-    if (value === 3) navigate("/search");
-  }, [value, navigate]);
+    if (value === 0 && location.pathname !== "/trending") navigate("/trending");
+    if (value === 1 && location.pathname !== "/movies") navigate("/movies");
+    if (value === 2 && location.pathname !== "/series") navigate("/series");
+    if (value === 3 && location.pathname !== "/search") navigate("/search");
+  }, [value, navigate, location.pathname]);
 
   return (
     <StyledBottomNavigation
